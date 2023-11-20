@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Bienvenido al Sistema de Gestión del Centro Médico Galenos</h1>
+    
+    <!-- Tarjetas de acción rápida para usuarios autenticados -->
+    {% if user.is_authenticated and user.perfil %}
+    <div class="row">
+        <!-- Mostrar opciones según el tipo de usuario -->
+        {% if user.perfil.tipo_usuario == 'Administrador' %}
+        <!-- Tarjeta de Gestión de Usuarios -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Administración</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Usuarios</h5>
+                    <p class="card-text">Cree, actualice y elimine los usuarios del sistema.</p>
+                    <a href="{% url 'admin_usuarios' 'crear' '0'  %}" class="btn btn-light">Administrar</a>
+                </div>
+            </div>
+        </div>
+        <!-- Repetir la estructura de tarjeta para otras opciones del Administrador -->
+        {% endif %}
+        
+        <!-- Ejemplo de cómo se verían las tarjetas para otros tipos de usuarios -->
+        {% if user.perfil.tipo_usuario == 'Medico' %}
+        <!-- Tarjeta de Gestión de Agenda Médica -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Médicos</div>
+                <div class="card-body">
+                    <h5 class="card-title">Agenda Médica</h5>
+                    <p class="card-text">Administre sus pacientes en espera.</p>
+                    <a href="{% url 'consultar_pacientes_en_espera' %}" class="btn btn-light">Gestionar Agenda</a>
+                </div>
+            </div>
+        </div>
+        <!-- Repetir la estructura de tarjeta para otras opciones del Médico -->
+        {% endif %}
+        {% if user.perfil.tipo_usuario == 'Secretaria' %}
+        <!-- Tarjeta de Gestión de Agenda Médica -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Secretaría</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Agenda Médica</h5>
+                    <p class="card-text">Organice y administre las citas médicas.</p>
+                    <a href="{% url 'gestionar_agenda_medica' %}" class="btn btn-light">Administrar Agenda</a>
+                </div>
+            </div>
+        </div>
+        <!-- Tarjeta de Gestión de Horas Médicas -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Secretaría</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Horas Médicas</h5>
+                    <p class="card-text">Asigne y modifique los horarios de atención médica.</p>
+                    <a href="{% url 'gestionar_horas_medicas' %}" class="btn btn-light">Administrar Horas</a>
+                </div>
+            </div>
+        </div>
+        <!-- Tarjeta de Consultar Pacientes en Espera -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-header">Secretaría</div>
+                <div class="card-body">
+                    <h5 class="card-title">Consultar Pacientes en Espera</h5>
+                    <p class="card-text">Vea la lista de pacientes que esperan ser atendidos.</p>
+                    <a href="{% url 'consultar_pacientes_en_espera' %}" class="btn btn-light">Ver Pacientes</a>
+                </div>
+            </div>
+        </div>
+        <!-- Tarjeta de Emitir Informes de Transacciones -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Secretaría</div>
+                <div class="card-body">
+                    <h5 class="card-title">Emitir Informes de Transacciones</h5>
+                    <p class="card-text">Genere informes financieros y de transacciones.</p>
+                    <a href="{% url 'emitir_informes_transacciones' %}" class="btn btn-light">Emitir Informes</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if user.perfil.tipo_usuario == 'Paciente' %}
+        <!-- Tarjeta de Gestión de Horas Médicas para Pacientes -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Paciente</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Horas Médicas</h5>
+                    <p class="card-text">Revise y gestione sus horas médicas programadas.</p>
+                    <a href="{% url 'gestionar_horas_medicas' %}" class="btn btn-light">Ver Horas Médicas</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if user.perfil.tipo_usuario == 'Cajero' %}
+        <!-- Tarjeta de Ingreso de Pagos para Cajeros -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Cajero</div>
+                <div class="card-body">
+                    <h5 class="card-title">Ingresar Pagos</h5>
+                    <p class="card-text">Registre los pagos recibidos por servicios médicos.</p>
+                    <a href="{% url 'ingresar_pagos' %}" class="btn btn-light">Registrar Pago</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+    {% else %}
+    <p class="lead">Por favor, <a href="{% url 'signin' %}">inicie sesión</a> para acceder a las funciones del sistema.</p>
+    {% endif %}
+</div>
+{% endblock %}

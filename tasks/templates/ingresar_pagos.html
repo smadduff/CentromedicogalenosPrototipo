@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>Ingresar Pagos</h2>
+    <form>
+        <div class="mb-3">
+            <label for="pacienteInput" class="form-label">Nombre del Paciente</label>
+            <input type="text" class="form-control" id="pacienteInput">
+        </div>
+        <div class="mb-3">
+            <label for="cantidadInput" class="form-label">Cantidad</label>
+            <input type="number" class="form-control" id="cantidadInput">
+        </div>
+        <div class="mb-3">
+            <label for="fechaInput" class="form-label">Fecha de Pago</label>
+            <input type="date" class="form-control" id="fechaInput">
+        </div>
+        <button type="submit" class="btn btn-success">Registrar Pago</button>
+    </form>
+</div>
+{% endblock %}

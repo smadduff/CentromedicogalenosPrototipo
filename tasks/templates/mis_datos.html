@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <h1 class="text-danger pt-5">Mis datos</h1>
+
+    <div class="accordion accordion-flush pt-5" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed text-light bg-danger" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Editar datos del Perfil
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <!-- Aquí se inserta el formulario del perfil -->
+                    <form class="text-start p-4" id="perfil_form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+        <input type="hidden" name="perfil_form">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <!-- Manejo individual de los campos -->
+            <div class="form-group">
+              {{ perfil_form.tipo_usuario.label_tag }}
+              <input type="text" name="{{ perfil_form.tipo_usuario.name }}" value="{{ perfil_form.tipo_usuario.value }}" class="form-control" readonly>
+              {% if perfil_form.tipo_usuario.errors %}
+                  <div class="alert alert-danger">
+                      {{ perfil_form.tipo_usuario.errors }}
+                  </div>
+              {% endif %}
+          </div>
+
+            <div class="form-group">
+              {{ perfil_form.rut.label_tag }} {{ perfil_form.rut }}
+              {% if perfil_form.rut.errors %}
+                <div class="alert alert-danger">
+                  {{ perfil_form.rut.errors }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              {{ perfil_form.direccion.label_tag }} {{ perfil_form.direccion }}
+              {% if perfil_form.direccion.errors %}
+                <div class="alert alert-danger">
+                  {{ perfil_form.direccion.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col">
+              <div class="mb-3">
+                {% if imagen %}
+                  <img id="registrarme-imagen" src="{{ imagen.url }}" class="w-25" alt="Imagen seleccionada">
+                {% else %}
+                  <img id="registrarme-imagen" src="{% static 'core/images/sin-imagen.png' %}" class="w-25" alt="Imagen seleccionada">
+                {% endif %}
+                <div class="form-group">
+                  {{ perfil_form.imagen.label_tag }} {{ perfil_form.imagen }}
+                  {% if perfil_form.imagen.errors %}
+                    <div class="alert alert-danger">
+                      {{ perfil_form.imagen.errors }}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% if form.errors %}
+              <br>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ form.errors }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row w-25 justify-content-center align-items-center">
+            <div class="col mt-2 mb-3">
+              <button type="submit" class="btn btn-dark ancho-150px"> Guardar </button>
+              <button type="reset" class="btn btn-dark ancho-150px"> Limpiar </button>
+            </div>
+        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-danger" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Editar datos de usuario
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <!-- Aquí se inserta el formulario del usuario -->
+                    <form class="text-start p-4" id="user_form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+      <input type="hidden" name="form">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          {{form.as_p}}
+        </div>
+      </div>
+      {% if form.errors %}
+        <br>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ form.errors }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
+      <div class="row w-25 justify-content-center align-items-center">
+        <div class="col mt-2 mb-3">
+          <button type="submit" class="btn btn-dark ancho-150px"> Guardar </button>
+          <button type="reset" class="btn btn-dark ancho-150px"> Limpiar </button>
+        </div>
+      </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed text-light bg-danger" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    Cambiar Contraseña
+                </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <!-- Aquí se inserta el formulario de la contraseña -->
+                    <form method="POST">
+                        {% csrf_token %}
+        <input type="hidden" name="password_form">
+        {{ password_form.as_p }}
+        <button type="submit" class="btn btn-dark ancho-150px"> Cambiar Contraseña </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'core/js/mis-datos.js' %}"></script>
+{% endblock script %}

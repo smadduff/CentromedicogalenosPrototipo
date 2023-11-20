@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    
+  <h1 class="text-danger pt-5">Crear perfil</h1>
+
+  <form method="POST" enctype="multipart/form-data" id="form">
+
+    {% csrf_token %}
+    
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <div class="form-row">
+          {% for field in form %}
+            {% if field.name != 'password1' and field.name != 'password2' %}
+              <div class="form-group row mb-2">
+                <label for="{{ field.id_for_label }}" class="col-sm-5 col-form-label">
+                  {{ field.label }}
+                </label>
+                <div class="col-sm-7">
+                  {{ field }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="col-sm-12 col-md-6">
+        
+        {% if form.image.value %}
+        <img id="crear-perfil-imagen" src="/media/perfiles/{{ form.image.value }}">
+       {% else %}
+        <img id="crear-perfil-imagen" src="{% static 'core/images/sin-imagen.png' %}">
+       {% endif %}
+
+        {% if form.errors %}
+          <br>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ form.errors }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <div class="mt-2 mb-3">
+      <button type="submit" class="btn btn-dark ancho-150px">Registrar usuario</button>
+      <button type="reset" class="btn btn-dark ancho-150px">Limpiar</button>
+      <button id="generate-password-btn" type="button" class="btn btn-danger">Generate Random Password</button>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %} 
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+  </form>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const generatePasswordBtn = document.getElementById('generate-password-btn');
+      generatePasswordBtn.addEventListener('click', function() {
+        const passwordInput = document.getElementById('id_password_generated');
+        // AJAX request to retrieve a random password
+        fetch('{% url "generate_password" %}')
+          .then(response => response.json())
+          .then(data => {
+            passwordInput.value = data.password;
+          })
+          .catch(error => console.error(error));
+      });
+    });
+  </script>
+  
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'core/js/crear_perfil.js' %}"></script>
+{% endblock script %}

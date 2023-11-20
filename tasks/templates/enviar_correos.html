@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>Enviar Correos</h2>
+    <form>
+        <div class="mb-3">
+            <label for="asuntoInput" class="form-label">Asunto</label>
+            <input type="text" class="form-control" id="asuntoInput">
+        </div>
+        <div class="mb-3">
+            <label for="mensajeTextarea" class="form-label">Mensaje</label>
+            <textarea class="form-control" id="mensajeTextarea" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Correo</button>
+    </form>
+</div>
+{% endblock %}

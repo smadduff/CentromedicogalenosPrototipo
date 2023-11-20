@@ -1,0 +1,91 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/"><img src="{% static 'core/images/logo.png' %}" alt="logo" class="w-50"></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a href="/" class="nav-link">Inicio</a>
+        </li>
+        {% if user.is_authenticated %}
+          <!-- Administrador tiene acceso a todas las opciones -->
+          {% if user.perfil.tipo_usuario == 'Administrador' %}
+            <li class="nav-item">
+              <a href="{% url 'admin_usuarios' 'crear' '0'  %}" class="nav-link">Gestionar Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'gestionar_agenda_medica' %}" class="nav-link">Gestionar Agenda Médica</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'gestionar_horas_medicas' %}" class="nav-link">Gestionar Horas Médicas</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'consultar_pacientes_en_espera' %}" class="nav-link">Consultar Pacientes en Espera</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'emitir_informes_transacciones' %}" class="nav-link">Emitir Informes de Transacciones</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'ingresar_pagos' %}" class="nav-link">Ingresar Pagos</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'enviar_correos' %}" class="nav-link">Enviar Correos</a>
+            </li>
+          <!-- Médico tiene acceso a Gestionar Agenda Médica y Horas Médicas -->
+          {% elif user.perfil.tipo_usuario == 'Medico' %}
+            <li class="nav-item">
+              <a href="{% url 'consultar_pacientes_en_espera' %}" class="nav-link">Consultar Pacientes en Espera</a>
+            </li>
+          <!-- Secretaria tiene acceso a Gestionar Agenda Médica, Horas Médicas y Consultar Pacientes en Espera -->
+          {% elif user.perfil.tipo_usuario == 'Secretaria' %}
+            <li class="nav-item">
+              <a href="{% url 'gestionar_agenda_medica' %}" class="nav-link">Gestionar Agenda Médica</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'gestionar_horas_medicas' %}" class="nav-link">Gestionar Horas Médicas</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'consultar_pacientes_en_espera' %}" class="nav-link">Consultar Pacientes en Espera</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'emitir_informes_transacciones' %}" class="nav-link">Emitir Informes de Transacciones</a>
+            </li>
+          <!-- Cajero tiene acceso a Ingresar Pagos -->
+          {% elif user.perfil.tipo_usuario == 'Cajero' %}
+            <li class="nav-item">
+              <a href="{% url 'ingresar_pagos' %}" class="nav-link">Ingresar Pagos</a>
+            </li>
+          {% elif user.perfil.tipo_usuario == 'Paciente' %}
+          <li class="nav-item">
+            <a href="{% url 'gestionar_horas_medicas' %}" class="nav-link">Gestionar Horas Médicas</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a href="{% url 'mis_datos'  %}" class="nav-link">Mis datos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a href="{% url 'signin' %}" class="nav-link">Iniciar sesión</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'signup' %}" class="nav-link">Registrarse</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

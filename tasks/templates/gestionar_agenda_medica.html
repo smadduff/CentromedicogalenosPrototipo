@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>Gestionar Agenda Médica</h2>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="button">Agregar Cita Médica</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Datos de ejemplo -->
+            <tr>
+                <th scope="row">1</th>
+                <td>Juan Pérez</td>
+                <td>2023-11-20</td>
+                <td>08:00 AM</td>
+                <td>
+                    <button class="btn btn-info">Editar</button>
+                    <button class="btn btn-danger">Eliminar</button>
+                </td>
+            </tr>
+            <!-- Repetir para más citas -->
+        </tbody>
+    </table>
+</div>
+{% endblock %}
